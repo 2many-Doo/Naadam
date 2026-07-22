@@ -7,7 +7,6 @@ import TransitionLink from "@/components/TransitionLink";
 export default function SurKharvaaPage() {
   const [count, setCount] = useState(0);
   const [scoredCount, setScoredCount] = useState(0);
-  const [topHits, setTopHits] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,11 +18,6 @@ export default function SurKharvaaPage() {
         const scores = Array.isArray(sData) ? sData : [];
         setCount(archers.length);
         setScoredCount(scores.length);
-        if (scores.length > 0) {
-          setTopHits(Math.max(...scores.map((s: { hits: number }) => s.hits)));
-        } else {
-          setTopHits(null);
-        }
       })
       .catch(console.error)
       .finally(() => setLoading(false));
@@ -80,15 +74,7 @@ export default function SurKharvaaPage() {
           <p className="mt-6 text-sm text-[var(--land-muted)]">
             {loading
               ? "Ачаалж байна..."
-              : [
-                  `${count} харваач`,
-                  scoredCount > 0
-                    ? `${scoredCount} оноо тэмдэглэсэн`
-                    : null,
-                  topHits != null ? `дээд оноо ${topHits}/3` : null,
-                ]
-                  .filter(Boolean)
-                  .join(" · ")}
+              : `${count} харваач · ${scoredCount} харваач харвасан`}
           </p>
         </div>
 

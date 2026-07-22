@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import BracketEditor from "@/components/BracketEditor";
 import { Bracket, Wrestler } from "@/types";
@@ -109,7 +108,7 @@ export default function AdminBokhPage() {
             Үндэсний бөхийн барилдаан — оноолт, бөхүүд, даваа
           </p>
         </div>
-        <div>
+        <div className="flex flex-wrap items-center gap-3">
           <input
             ref={fileRef}
             type="file"
@@ -129,6 +128,21 @@ export default function AdminBokhPage() {
           >
             {importing ? "Импортолж байна..." : "Excel оруулах"}
           </button>
+          <button
+            type="button"
+            onClick={() => setMode({ type: "create" })}
+            className="bg-[var(--land-forest)] px-5 py-2.5 text-sm font-medium text-white transition hover:bg-[var(--land-ink)]"
+          >
+            Барилдаан үүсгэх
+          </button>
+          <a
+            href="/bokh/led"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border border-[var(--land-gold)] px-5 py-2.5 text-sm font-medium text-[var(--land-ink)] transition hover:bg-[var(--land-gold)]/15"
+          >
+            LED дэлгэц
+          </a>
         </div>
       </div>
 
@@ -192,28 +206,6 @@ export default function AdminBokhPage() {
           </div>
         </div>
       )}
-
-      <div className="mt-8 flex flex-wrap gap-3">
-        <button
-          type="button"
-          onClick={() => setMode({ type: "create" })}
-          className="bg-[var(--land-forest)] px-5 py-2.5 text-sm font-medium text-white transition hover:bg-[var(--land-ink)]"
-        >
-          Оноолт үүсгэх
-        </button>
-        <Link
-          href="/bokh/bracket"
-          className="border border-[var(--land-forest)] px-5 py-2.5 text-sm font-medium text-[var(--land-forest)] transition hover:bg-[var(--land-forest)] hover:text-white"
-        >
-          Оноолт харах
-        </Link>
-        <Link
-          href="/bokh"
-          className="border border-[var(--land-ink)]/15 px-5 py-2.5 text-sm text-[var(--land-muted)] transition hover:border-[var(--land-gold)] hover:text-[var(--land-ink)]"
-        >
-          Нийтэд харагдах хуудас
-        </Link>
-      </div>
 
       {!loading && wrestlers.length > 0 && (
         <div className="mt-10">

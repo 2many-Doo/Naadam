@@ -244,14 +244,6 @@ export default function AdminHotolborPage() {
         </div>
       </div>
 
-      <div className="mt-6 border border-[var(--land-ink)]/10 bg-white p-4 text-sm text-[var(--land-muted)]">
-        Excel:{" "}
-        <span className="text-[var(--land-ink)]">
-          A=№ · B=Цаг · C=Арга хэмжээ · D=Төрөл · E=Байршил · F=Хариуцах ·
-          G=Тайлбар · H=Төлөв
-        </span>
-      </div>
-
       {items.length === 0 ? (
         <p className="mt-8 border border-dashed border-[var(--land-ink)]/20 p-6 text-sm text-[var(--land-muted)]">
           Хөтөлбөр байхгүй. &quot;Excel оруулах&quot; дарж оруулна уу.

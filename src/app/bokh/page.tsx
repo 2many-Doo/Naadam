@@ -5,6 +5,8 @@ import Image from "next/image";
 import WrestlerCarousel from "@/components/WrestlerCarousel";
 import TransitionLink from "@/components/TransitionLink";
 import { Bracket, Wrestler } from "@/types";
+import { ROUND_NAMES } from "@/lib/constants";
+import { getBracketPhase } from "@/lib/bracket-logic";
 
 export default function BokhPage() {
   const [brackets, setBrackets] = useState<Bracket[]>([]);
@@ -46,6 +48,18 @@ export default function BokhPage() {
       default:
         return status;
     }
+  };
+
+  const roundLabel = (bracket: Bracket) => {
+    const phase = getBracketPhase(bracket);
+    if (phase.mode === "completed") return "Финал дууссан";
+    return ROUND_NAMES[phase.round] ?? `${phase.round}-ийн даваа`;
+  };
+
+  const statusLine = () => {
+    if (loading) return "Ачаалж байна...";
+    if (!latestBracket) return "";
+    return `${latestBracket.name} · ${statusLabel(latestBracket.status)} · ${roundLabel(latestBracket)}`;
   };
 
   return (
@@ -97,11 +111,7 @@ export default function BokhPage() {
           </div>
 
           <p className="mt-6 text-sm text-[var(--land-muted)]">
-            {loading
-              ? "Ачаалж байна..."
-              : latestBracket
-                ? `${latestBracket.name} · ${statusLabel(latestBracket.status)} · ${wrestlers.length} бөх`
-                : `${wrestlers.length} бөх`}
+            {statusLine()}
           </p>
         </div>
 

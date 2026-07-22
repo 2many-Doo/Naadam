@@ -35,15 +35,14 @@ function FighterSide({
                 src={wrestler.image}
                 alt={wrestler.name}
                 fill
-                className={`object-contain object-bottom drop-shadow-md ${
-                  side === "right" ? "scale-x-[-1]" : ""
-                } ${dimmed ? "opacity-45 grayscale" : "opacity-100"}`}
+                className={`object-contain object-bottom drop-shadow-md ${side === "right" ? "scale-x-[-1]" : ""
+                  } ${dimmed ? "opacity-45 grayscale" : "opacity-100"}`}
                 sizes="(max-width: 768px) 40vw, 15vw"
                 unoptimized
               />
             </div>
           </div>
-          <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-white via-white/85 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-white/80 via-white/50 to-transparent" />
           <div className="relative z-10 w-full px-2 pb-3 text-center md:px-2 md:pb-3">
             <p className="truncate font-[family-name:var(--font-display)] text-sm font-semibold tracking-wide text-[var(--land-ink)] uppercase md:text-base lg:text-lg">
               {wrestler.name}
@@ -77,7 +76,7 @@ function FlagVideoBg() {
     const tryPlay = () => {
       video.muted = true;
       video.playsInline = true;
-      void video.play().catch(() => {});
+      void video.play().catch(() => { });
     };
 
     const io = new IntersectionObserver(
@@ -127,7 +126,7 @@ function MatchSlide({ match }: { match: Match }) {
     <article className="relative w-full shrink-0 snap-start overflow-hidden border border-[var(--land-ink)]/10 bg-white md:w-auto md:shrink md:snap-align-none">
       <div className="absolute inset-0 overflow-hidden">
         <FlagVideoBg />
-        <div className="absolute inset-0 bg-white/30" />
+        <div className="absolute inset-0 bg-white/5" />
       </div>
 
       <div className="pointer-events-none absolute inset-x-0 top-3 z-20 flex flex-col items-center gap-2 md:top-3">
@@ -269,11 +268,10 @@ export default function BracketCarousel({ bracket }: Props) {
             key={round}
             type="button"
             onClick={() => setActiveRound(round)}
-            className={`min-w-8 border px-2.5 py-1 text-sm font-medium transition ${
-              round === activeRound
+            className={`min-w-8 border px-2.5 py-1 text-sm font-medium transition ${round === activeRound
                 ? "border-[var(--land-gold)] bg-[var(--land-gold)]/15 text-[var(--land-ink)]"
                 : "border-[var(--land-ink)]/15 text-[var(--land-muted)] hover:border-[var(--land-gold)] hover:text-[var(--land-ink)]"
-            }`}
+              }`}
             aria-label={ROUND_NAMES[round]}
           >
             {round}

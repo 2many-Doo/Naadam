@@ -72,7 +72,7 @@ export default function SurKharvaaListPage() {
         <p className="mt-2 text-sm text-[var(--land-muted)]">
           {loading
             ? "Ачаалж байна..."
-            : `${archers.length} харваач · оноо: 3 суммаас`}
+            : `${archers.length} харваач · оноо: 3 сумнаас`}
         </p>
 
         {loading ? (
