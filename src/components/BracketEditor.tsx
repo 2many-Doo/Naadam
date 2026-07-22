@@ -86,13 +86,12 @@ export default function BracketEditor({
     [bracket]
   );
 
+  const phaseRound =
+    phase && "round" in phase ? phase.round : null;
+
   useEffect(() => {
     setNextRoundStarted(false);
-  }, [
-    bracket?._id,
-    phase?.mode,
-    phase && "round" in phase ? phase.round : null,
-  ]);
+  }, [bracket?._id, phase?.mode, phaseRound]);
 
   const setupWrestlers = useMemo((): Wrestler[] => {
     if (!bracket || !phase || phase.mode !== "setup") return [];
