@@ -67,6 +67,56 @@ function FighterSide({
   );
 }
 
+function FlagVideoBg() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const tryPlay = () => {
+      video.muted = true;
+      video.playsInline = true;
+      void video.play().catch(() => {});
+    };
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (!video.src) {
+            video.src = "/mongolia-flag.mp4";
+            video.load();
+          }
+          tryPlay();
+        } else {
+          video.pause();
+        }
+      },
+      { rootMargin: "120px", threshold: 0.05 }
+    );
+
+    io.observe(video);
+    video.addEventListener("loadeddata", tryPlay);
+    return () => {
+      io.disconnect();
+      video.removeEventListener("loadeddata", tryPlay);
+    };
+  }, []);
+
+  return (
+    <video
+      ref={videoRef}
+      className="absolute inset-0 h-full w-full object-cover"
+      muted
+      loop
+      playsInline
+      preload="none"
+      poster="/dalbaa.jpeg"
+      aria-hidden
+    />
+  );
+}
+
 function MatchSlide({ match }: { match: Match }) {
   const w1 = match.wrestler1;
   const w2 = match.wrestler2;
@@ -76,17 +126,7 @@ function MatchSlide({ match }: { match: Match }) {
   return (
     <article className="relative w-full shrink-0 snap-start overflow-hidden border border-[var(--land-ink)]/10 bg-white md:w-auto md:shrink md:snap-align-none">
       <div className="absolute inset-0 overflow-hidden">
-        <video
-          className="absolute inset-0 h-full w-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster="/dalbaa.jpeg"
-        >
-          <source src="/mongolia-flag.mp4" type="video/mp4" />
-        </video>
+        <FlagVideoBg />
         <div className="absolute inset-0 bg-white/30" />
       </div>
 
@@ -187,28 +227,30 @@ export default function BracketCarousel({ bracket }: Props) {
 
   return (
     <div className="w-full">
-      <div className="mx-auto mb-6 max-w-md px-4 md:px-8">
-        <label className="sr-only" htmlFor="wrestler-search">
-          Бөх хайх
-        </label>
-        <input
-          id="wrestler-search"
-          type="search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Бөхийн нэрээр хайх..."
-          className="w-full border border-[var(--land-ink)]/15 bg-white px-4 py-3 text-sm outline-none placeholder:text-[var(--land-muted)] focus:border-[var(--land-gold)]"
-        />
-        {query && (
-          <p className="mt-2 text-center text-xs text-[var(--land-muted)]">
-            {matches.length > 0
-              ? `${matches.length} барилдаан олдлоо`
-              : "Тохирох бөх олдсонгүй"}
-          </p>
-        )}
+      <div className="sticky top-0 z-30 border-b border-[var(--land-ink)]/10 bg-white/95 px-4 py-3 backdrop-blur-sm md:static md:mb-6 md:border-0 md:bg-transparent md:px-8 md:py-0 md:backdrop-blur-none">
+        <div className="mx-auto max-w-md">
+          <label className="sr-only" htmlFor="wrestler-search">
+            Бөх хайх
+          </label>
+          <input
+            id="wrestler-search"
+            type="search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Бөхийн нэрээр хайх..."
+            className="w-full border border-[var(--land-ink)]/15 bg-white px-4 py-3 text-sm outline-none placeholder:text-[var(--land-muted)] focus:border-[var(--land-gold)]"
+          />
+          {query && (
+            <p className="mt-2 text-center text-xs text-[var(--land-muted)]">
+              {matches.length > 0
+                ? `${matches.length} барилдаан олдлоо`
+                : "Тохирох бөх олдсонгүй"}
+            </p>
+          )}
+        </div>
       </div>
 
-      <div className="mb-8 px-2 text-center">
+      <div className="mb-8 px-2 pt-6 text-center md:pt-0">
         <p className="font-[family-name:var(--font-display)] text-2xl font-semibold tracking-wide text-[var(--land-ink)] uppercase md:text-3xl">
           {ROUND_NAMES[activeRound]}
         </p>
@@ -241,7 +283,7 @@ export default function BracketCarousel({ bracket }: Props) {
 
       <div
         ref={matchTrackRef}
-        className="flex max-h-[78vh] flex-col gap-4 overflow-y-auto px-4 pb-4 snap-y snap-mandatory scrollbar-thin md:max-h-none md:grid md:grid-cols-2 md:gap-4 md:overflow-visible md:snap-none lg:grid-cols-3 xl:grid-cols-4 md:px-8"
+        className="flex flex-col gap-4 px-4 pb-4 snap-y snap-mandatory scrollbar-thin md:grid md:max-h-none md:grid-cols-2 md:gap-4 md:overflow-visible md:snap-none lg:grid-cols-3 xl:grid-cols-4 md:px-8"
         style={{ scrollBehavior: "smooth" }}
       >
         {matches.length === 0 ? (
