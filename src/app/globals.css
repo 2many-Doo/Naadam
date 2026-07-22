@@ -1,0 +1,188 @@
+@import "tailwindcss";
+
+:root {
+  /* Landing — steppe / mountain celebration */
+  --land-ink: #14251f;
+  --land-muted: #4a6358;
+  --land-paper: #eef3ef;
+  --land-gold: #b8922a;
+  --land-gold-bright: #d4ae3a;
+  --land-forest: #1b4d3e;
+  --land-sky: #7eb8c9;
+
+  /* App (bracket tools) */
+  --background: #0f1419;
+  --foreground: #f0f4f8;
+  --card: #1a2332;
+  --card-border: #2d3f56;
+  --accent: #c9a227;
+  --accent-hover: #e0b83a;
+  --success: #22c55e;
+  --muted: #8899aa;
+}
+
+body {
+  min-height: 100vh;
+}
+
+/* Landing motions */
+@keyframes land-rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes land-kenburns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes land-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.land-rise {
+  animation: land-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.land-rise-delay-1 {
+  animation-delay: 0.15s;
+}
+
+.land-rise-delay-2 {
+  animation-delay: 0.3s;
+}
+
+.land-rise-delay-3 {
+  animation-delay: 0.45s;
+}
+
+.land-kenburns {
+  animation: land-kenburns 18s ease-out both;
+}
+
+.land-fade {
+  animation: land-fade 1.2s ease both;
+}
+
+/* Wrestler infinite carousel */
+@keyframes wrestler-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.wrestler-marquee {
+  animation: wrestler-marquee 900s linear infinite;
+}
+
+.wrestler-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Hide scrollbar but keep scroll for bracket match carousel */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--land-gold) transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  height: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--land-gold);
+  border-radius: 999px;
+}
+
+/* Showmatch VS mark */
+.vs-mark {
+  font-family: var(--font-vs), Impact, sans-serif;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  -webkit-text-stroke: 1.5px rgba(20, 37, 31, 0.35);
+  text-shadow:
+    0 2px 0 rgba(20, 37, 31, 0.25),
+    0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wrestler-marquee {
+    animation: none;
+  }
+
+  .page-enter,
+  .page-enter-delay-1,
+  .page-enter-delay-2 {
+    animation: none;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}
+
+/* Page cross-fade / slide when navigating to sports */
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+    filter: blur(4px);
+  }
+}
+
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(4px);
+  }
+}
+
+.page-enter {
+  animation: page-enter 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.page-enter-delay-1 {
+  animation: page-enter 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+}
+
+.page-enter-delay-2 {
+  animation: page-enter 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.24s both;
+}
+
+::view-transition-old(root) {
+  animation: vt-fade-out 0.35s ease both;
+}
+
+::view-transition-new(root) {
+  animation: vt-fade-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
